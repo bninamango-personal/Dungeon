@@ -17,6 +17,8 @@ namespace bninamango
 
             Player player = new Player('B', Vector2.One);
 
+            dungeon.Draw();
+
             GameLoop();
 
             void GameLoop()
@@ -73,8 +75,6 @@ namespace bninamango
                     player.Move(direction);
                 }
 
-                GameOver();
-
             }
 
             void Render()
@@ -86,11 +86,13 @@ namespace bninamango
                 player.Draw();
 
                 direction = Vector2.Zero;
+             
+                GameOver();
             }
 
             void GameOver()
             {
-                if (dungeon.CanMove(player.Position + direction, 'F'))
+                if (dungeon.CanMove(player.Position, 'F'))
                 {
                     isGameOver = true;
 
