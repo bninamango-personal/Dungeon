@@ -9,7 +9,7 @@ namespace bninamango
     {
         public static string[,] FileToArray(string path)
         {
-            if (!File.Exists(path)) return null;
+            //if (!File.Exists(path)) return null;
 
             string[] lines = File.ReadAllLines(path);
 

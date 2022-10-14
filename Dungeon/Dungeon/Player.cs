@@ -9,6 +9,11 @@ namespace bninamango
         private char character;
         private Vector2 position;
 
+        public Vector2 Position 
+        {
+            get => position;
+        }
+
         public Player(char character, Vector2 position)
         {
             this.character = character;

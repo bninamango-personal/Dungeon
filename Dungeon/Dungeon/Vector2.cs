@@ -14,6 +14,11 @@ namespace bninamango
             get => new Vector2(0, 0);
         }
 
+        public static Vector2 One
+        {
+            get => new Vector2(1, 1);
+        }
+
         public static Vector2 Up
         {
             get => new Vector2(0, 1);

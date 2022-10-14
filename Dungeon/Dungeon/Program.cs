@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.IO;
 using System;
+using System.Reflection;
 
 namespace bninamango
 {
@@ -10,18 +11,19 @@ namespace bninamango
         {
             bool isGameOver = false;
 
+            Dungeon dungeon = new Dungeon(Level.FileToArray("Worlds/World_0.txt"));
+
             Vector2 direction = new Vector2();
 
-            Player player = new Player('B', Vector2.Zero);
+            Player player = new Player('B', Vector2.One);
 
             GameLoop();
 
-            void GameLoop() 
+            void GameLoop()
             {
                 while (!isGameOver)
                 {
-                    Thread t = new Thread(Input);
-                    t.Start();
+                    Input();
 
                     Update();
 
@@ -66,16 +68,36 @@ namespace bninamango
 
             void Update()
             {
-                player.Move(direction);
+                if (dungeon.CanMove(player.Position + direction, ' ') || dungeon.CanMove(player.Position + direction, 'F'))
+                {
+                    player.Move(direction);
+                }
+
+                GameOver();
+
             }
 
             void Render()
             {
                 Console.Clear();
 
+                dungeon.Draw();
+
                 player.Draw();
 
                 direction = Vector2.Zero;
+            }
+
+            void GameOver()
+            {
+                if (dungeon.CanMove(player.Position + direction, 'F'))
+                {
+                    isGameOver = true;
+
+                    Console.Clear();
+
+                    Console.WriteLine("You finished the maze, congratulations !!!");
+                }
             }
         }
     }
