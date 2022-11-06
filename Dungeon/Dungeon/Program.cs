@@ -9,6 +9,9 @@ namespace bninamango
     {
         static void Main(string[] args)
         {
+            Intro();
+            Instructions();
+
             bool isGameOver = false;
 
             Dungeon dungeon = new Dungeon(Level.FileToArray("Worlds/World_0.txt"));
@@ -17,7 +20,7 @@ namespace bninamango
 
             Player player = new Player('B', Vector2.One);
 
-            dungeon.Draw();
+            Render();
 
             GameLoop();
 
@@ -70,11 +73,24 @@ namespace bninamango
 
             void Update()
             {
-                if (dungeon.CanMove(player.Position + direction, ' ') || dungeon.CanMove(player.Position + direction, 'F'))
+                if (dungeon.CanMove(player.Position + direction, ' '))
                 {
                     player.Move(direction);
                 }
 
+                if (dungeon.CanMove(player.Position + direction, 'L'))
+                {
+                    player.SetKey(true);
+
+                    dungeon.Replace(player.Position + direction);
+
+                    player.Move(direction);
+                }
+
+                if (dungeon.CanMove(player.Position + direction, 'F') && player.Key)
+                {
+                    player.Move(direction);
+                }
             }
 
             void Render()
@@ -86,19 +102,65 @@ namespace bninamango
                 player.Draw();
 
                 direction = Vector2.Zero;
-             
+
                 GameOver();
             }
 
             void GameOver()
             {
-                if (dungeon.CanMove(player.Position, 'F'))
+                if (dungeon.CanMove(player.Position, 'F') && player.Key)
                 {
                     isGameOver = true;
 
                     Console.Clear();
 
-                    Console.WriteLine("You finished the maze, congratulations !!!");
+                    Finish();
+                }
+            }
+
+            void Intro()
+            {
+                string[] lines = File.ReadAllLines("Title.txt");
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    Console.WriteLine(lines[i]);
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("Press any key to continue");
+                Console.WriteLine();
+
+                Console.ReadKey();
+
+                Console.Clear();
+            }
+
+            void Instructions()
+            {
+                Console.WriteLine("Instructions");
+                Console.WriteLine("▲ : Up movement");
+                Console.WriteLine("▼ : Down movement");
+                Console.WriteLine("► : Right movement");
+                Console.WriteLine("◄ : Left movement");
+                Console.WriteLine("L : Key door");
+                Console.WriteLine("F : Destination door");
+                Console.WriteLine("\nYou have to get the key to get out of the maze\n");
+                
+                Console.WriteLine("Press any key to continue");
+
+                Console.ReadKey();
+
+                Console.Clear();
+            }
+
+            void Finish()
+            {
+                string[] lines = File.ReadAllLines("Finish.txt");
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    Console.WriteLine(lines[i]);
                 }
             }
         }

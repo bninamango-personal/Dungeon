@@ -8,10 +8,16 @@ namespace bninamango
     {
         private char character;
         private Vector2 position;
+        private bool key;
 
-        public Vector2 Position 
+        public Vector2 Position
         {
             get => position;
+        }
+
+        public bool Key 
+        {
+            get => key;
         }
 
         public Player(char character, Vector2 position)
@@ -32,6 +38,11 @@ namespace bninamango
 
             Console.SetCursorPosition(position.x, position.y);
             Console.WriteLine(character);
+        }
+
+        public void SetKey(bool value) 
+        {
+            key = value;
         }
     }
 }

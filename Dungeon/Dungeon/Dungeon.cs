@@ -18,12 +18,12 @@ namespace bninamango
             cols = grid.GetLength(1);
         }
 
-        public bool CanMove(Vector2 position, char character) 
+        public bool CanMove(Vector2 position, char character)
         {
             return grid[position.y, position.x] == character.ToString();
         }
 
-        public void Draw() 
+        public void Draw()
         {
             for (int i = 0; i < rows; i++)
             {
@@ -35,6 +35,15 @@ namespace bninamango
                     Console.WriteLine(element);
                 }
             }
+        }
+
+        public char GetCharacter(Vector2 position)
+        {
+            return char.Parse(grid[position.y, position.x]);
+        }
+        public void Replace(Vector2 position)
+        {
+            grid[position.y, position.x] = " ";
         }
     }
 }
